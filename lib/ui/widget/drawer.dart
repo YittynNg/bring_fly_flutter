@@ -1,7 +1,8 @@
-import 'package:bringfly_uniwallet/locator.dart';
-import 'package:bringfly_uniwallet/service/auth_service.dart';
-import 'package:bringfly_uniwallet/ui/page/receive/receive_with_qr.dart';
-import 'package:bringfly_uniwallet/ui/page/scan/scan_page.dart';
+import '../../locator.dart';
+import '../../service/auth_service.dart';
+import '../page/bill/bill_page_view.dart';
+import '../page/receive/receive_with_qr.dart';
+import '../page/scan/scan_page.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -45,7 +46,9 @@ class MyDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.file_copy, color: Colors.white),
                 title: Text('Bills', style: TextStyle(color: Colors.white),),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => BillPageView()));
+                },
               ),
               ListTile(
                 leading: Icon(Icons.history, color: Colors.white),
