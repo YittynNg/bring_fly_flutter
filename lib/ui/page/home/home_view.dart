@@ -1,7 +1,7 @@
 import '../account/account_page.dart';
 import '../../widget/add_account_dialog.dart';
 
-import '../../widget/account_card.dart';
+import '../../widget/account_widget.dart';
 
 import '../../widget/drawer.dart';
 import 'package:flutter/material.dart';

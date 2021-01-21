@@ -19,11 +19,11 @@ class MyDrawer extends StatelessWidget {
                 height: 128,
                 color: Theme.of(context).accentColor,
               ),
-              ListTile(
-                leading: Icon(Icons.home, color: Colors.white),
-                title: Text('Home', style: TextStyle(color: Colors.white),),
-                onTap: () {},
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.home, color: Colors.white),
+              //   title: Text('Home', style: TextStyle(color: Colors.white),),
+              //   onTap: () {},
+              // ),
               ListTile(
                 leading: Icon(Icons.qr_code, color: Colors.white),
                 title: Text('Scan QR', style: TextStyle(color: Colors.white),),

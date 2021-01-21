@@ -1,4 +1,4 @@
-import 'package:bringfly_uniwallet/ui/widget/account_card.dart';
+import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_qr.dart';
 import 'package:flutter/material.dart';
 import '../../constant/logo.dart';

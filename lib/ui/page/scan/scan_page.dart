@@ -1,6 +1,6 @@
 import 'package:bringfly_uniwallet/ui/page/scan/qr_view.dart';
 import 'package:bringfly_uniwallet/ui/page/scan/scan_viewmodel.dart';
-import 'package:bringfly_uniwallet/ui/widget/account_card.dart';
+import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -91,10 +91,10 @@ class ScanPage extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          AccountCard(_scanRecipient),
-                          AccountCard(_scanRecipient),
-                          AccountCard(_scanRecipient),
-                          AccountCard(_scanRecipient)
+                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay'),
+                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay'),
+                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay'),
+                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay')
                         ],
                       ),
                     ),
@@ -132,12 +132,12 @@ class ScanPage extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 9, right: 9, top: 9),
                               child: Text('To Recipient'),
                             ),
-                            AccountCard(() {}),
+                            AccountCard(() {}, type: 'GrabPay', name: 'GrabPay'),
                             Padding(
                               padding: const EdgeInsets.only(left: 9, right: 9, top: 9),
                               child: Text('From Account'),
                             ),
-                            MyAccountCard(() {}),
+                            MyAccountCard(() {}, type: 'GrabPay', name: 'GrabPay'),
                             SizedBox(height: 18),
                             // Padding(
                             //   padding: const EdgeInsets.all(9.0),

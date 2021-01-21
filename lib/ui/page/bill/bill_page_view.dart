@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'telco/telco_bill_page_view.dart';
+
 class BillPageView extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -22,7 +24,7 @@ class BillPageView extends StatelessWidget {
                   child: BillCard('assets/bill/tv.png', 'TV & Radio', (){}),
                 ),
                 Expanded(
-                  child: BillCard('assets/bill/broadband.png', 'Broadband &\nVoice Service', (){}),
+                  child: BillCard('assets/bill/broadband.png', 'Broadband, Voice\n& Psotpaid Service', (){}),
                 )
               ],
             ),
@@ -41,7 +43,11 @@ class BillPageView extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: BillCard('assets/bill/telco.png', 'Telco', (){}),
+                  child: BillCard('assets/bill/telco.png', 'Prepaid Telco', (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      return TelcoBillPageView();
+                    }));
+                  }),
                 ),
                 Expanded(
                   child: BillCard('assets/bill/other.png', 'Other', (){}),
