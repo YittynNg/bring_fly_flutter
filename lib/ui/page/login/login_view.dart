@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
 
-  final TextEditingController _email = TextEditingController();//..text = 'wx.chee@getitqec.com';
+  final TextEditingController _email = TextEditingController()..text = 'example@gmail.com';
   final TextEditingController _password = TextEditingController();//..text = '000000';
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();

@@ -1,3 +1,4 @@
+import 'package:bringfly_uniwallet/common/mock_data.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_qr.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,8 @@ class ReceiveWithQRPageView extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 5,),
-            MyAccountCard(_showQRWidget),
-            MyAccountCard(_showQRWidget),
-            MyAccountCard(_showQRWidget)
+            for(var acc in MockData.accounts)
+              MyAccountCard(_showQRWidget, account: acc,),
           ],
         ),
       ),

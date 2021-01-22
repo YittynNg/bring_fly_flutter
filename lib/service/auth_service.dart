@@ -1,3 +1,4 @@
+import 'package:bringfly_uniwallet/common/mock_data.dart';
 import 'package:flutter/foundation.dart';
 import './notification/push_notification.dart';
 import '../util/validator.dart';
@@ -49,16 +50,21 @@ class AuthService extends ChangeNotifier {
   }
 
   // return boolean, whether is a first time user
-  Future<bool> signIn() async {
+  Future<bool> signIn({String email = '', String password = ''}) async {
     try {
       await Future.delayed(Duration(seconds: 1));
+      if(email != MockData.email || password != MockData.password) {
+        _status = AuthStatus.Unauthenticated;
+        notifyListeners();
+        throw(Exception('Email or password incorrect'));
+      }
       _status = AuthStatus.Authenticated;
       notifyListeners();
       return true;
     } catch(e) {
       print('--- GOOGLE sign in ERR ---');
-        _status = AuthStatus.Unauthenticated;
-        notifyListeners();
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
       throw(e);
     }
   }

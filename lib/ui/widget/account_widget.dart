@@ -1,5 +1,5 @@
-import 'package:bringfly_uniwallet/ui/constant/logo.dart';
-import 'package:bringfly_uniwallet/ui/page/account/account_page.dart';
+import '../../model/accounts.dart';
+import '../constant/logo.dart';
 import 'package:flutter/material.dart';
 
 class MyAccountCard extends StatelessWidget{
@@ -7,7 +7,8 @@ class MyAccountCard extends StatelessWidget{
   final Function() _onTap;
   final String type;
   final String name;
-  MyAccountCard(this._onTap, {this.type = '', this.name = ''});
+  final Account account;
+  MyAccountCard(this._onTap, {this.type = '', this.name = '', this.account});
   
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class MyAccountCard extends StatelessWidget{
                 Expanded(
                   flex: 1,
                   child: Center(
-                    child: Image(image: _typeToImage(type),),
+                    child: Image(image: _typeToImage(account?.type),),
                   ),
                 ),
                 Expanded(
@@ -35,7 +36,7 @@ class MyAccountCard extends StatelessWidget{
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text('Balance', style: Theme.of(context).textTheme.overline,),
-                      Text('RM 1000.00', style: Theme.of(context).textTheme.bodyText1,)
+                      Text('RM '+account.balance.toStringAsFixed(2), style: Theme.of(context).textTheme.bodyText1,)
                     ],
                   )
                 )
@@ -103,26 +104,42 @@ AssetImage _typeToImage(String type) {
       return TouchNGoLogo;
     case 'Boost':
       return BoostLogo;
-    default:
+    case 'GrabPay':
       return GrabPayLogo;
+    default:
+      return DuitNowQR;
   }
 }
 
-DropdownMenuItem<String> AccountDropDownMenuItem(String value, double amount) => DropdownMenuItem(
-  value: value,
+DropdownMenuItem<Account> AccountDropDownMenuItem(Account account) => DropdownMenuItem(
+  value: account,
   child: SizedBox(
     width: 240,
     child: Row(
       children: [
-        Image(image: _typeToImage(value), height: 40, width: 80,),
+        Image(image: _typeToImage(account.type), height: 40, width: 80,),
         SizedBox(width: 9,),
         Expanded(
           child: SizedBox(),
         ),
         Padding(
           padding: const EdgeInsets.all(9.0),
-          child: Text('RM'+amount.toStringAsFixed(2)),
+          child: Text('RM'+account.balance.toStringAsFixed(2)),
         )
+      ],
+    ),
+  ),
+);
+
+DropdownMenuItem<String> AccountTypeDropDownMenuItem(String account) => DropdownMenuItem(
+  value: account,
+  child: SizedBox(
+    width: 220,
+    child: Row(
+      children: [
+        Image(image: _typeToImage(account), height: 40, width: 80,),
+        SizedBox(width: 9,),
+        Text(account)
       ],
     ),
   ),

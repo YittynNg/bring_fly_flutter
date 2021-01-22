@@ -20,7 +20,7 @@ class SignInFormModel extends BaseViewModel {
   ) async {
     setBusy(true);
     try {
-      await _authService.signIn();
+      await _authService.signIn(email: email, password: password);
       log.d('GET ${_authService.status}');
       if (_authService.status == AuthStatus.Unauthenticated) {
         _dialogService.showDialog(

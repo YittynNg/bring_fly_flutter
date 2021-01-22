@@ -1,3 +1,5 @@
+import 'package:bringfly_uniwallet/common/mock_data.dart';
+import 'package:bringfly_uniwallet/model/accounts.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +69,7 @@ class _BottomSheetForm extends StatelessWidget {
     String errorText = '';
 
     int amount = 30;
-    String account;
+    Account account;
 
     _submit() {
       if(_formKey.currentState.validate()) {
@@ -150,16 +152,15 @@ class _BottomSheetForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 9),
                 child: StatefulBuilder(
                   builder: (context, setState) {
-                    return DropdownButton<String>(
+                    return DropdownButton<Account>(
                       onChanged: (value) {
                         setState(() { account = value; });
                       },
                       value: account,
                       hint: Text('Choose Wallet'),
                       items: [
-                        AccountDropDownMenuItem('TouchNGo', 1000),
-                        AccountDropDownMenuItem('GrabPay', 1000),
-                        AccountDropDownMenuItem('Boost', 1000),
+                        for(var acc in MockData.accounts)
+                          AccountDropDownMenuItem(acc)
                       ],
                     );
                   }

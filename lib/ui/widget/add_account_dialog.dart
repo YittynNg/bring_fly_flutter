@@ -1,7 +1,16 @@
+import 'dart:math';
+
+import 'package:bringfly_uniwallet/common/mock_data.dart';
+import 'package:bringfly_uniwallet/locator.dart';
+import 'package:bringfly_uniwallet/model/accounts.dart';
 import 'package:bringfly_uniwallet/ui/constant/logo.dart';
+import 'package:bringfly_uniwallet/ui/page/verify/verification_page_view.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+import 'account_widget.dart';
 
 class AddAccountDialog extends StatelessWidget {
   
@@ -16,57 +25,79 @@ class AddAccountDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    _phoneEditingComplete() async {
-      if (_formKey.currentState.validate()) {
-        FocusScope.of(context).unfocus();
-        // await model.checkCanSignIn(_email.text, _password.text);
-        // Navigator.pushNamed(context, RootPageRoute);
-      }
-    }
-
     return ViewModelBuilder<AddAccountDialogViewmodel>.reactive(
       viewModelBuilder: () => AddAccountDialogViewmodel(),
       builder: (context, model, _) {
+
+        _phoneEditingComplete() async {
+          if (_formKey.currentState.validate()) {
+            FocusScope.of(context).unfocus();
+            // await model.checkCanSignIn(_email.text, _password.text);
+            // Navigator.pushNamed(context, RootPageRoute);
+            await model.requestAddAccount();
+            // bool result = await Navigator.of(context).push<bool>(MaterialPageRoute(builder: (context) {
+            //   return VerificationPage(phone: '+6'+_phone.text,);
+            // }));
+            // print('From verification: $result');
+            // if(result != null && result) {
+            //   Navigator.of(context).pop(true);
+            // }
+          }
+        }
+
         return SimpleDialog(
           contentPadding: EdgeInsets.symmetric(vertical: 9, horizontal: 15),
           title: Text('Add E-Wallet'),
           children: [
-            DropdownButton<String>(
-              onChanged: (value) {},
-              value: null,
-              hint: Text('Choose Wallet'),
-              items: [
-                DropdownMenuItem(
-                  value: 'TouchNGo',
-                  child: Row(
-                    children: [
-                      Image(image: TouchNGoLogo, height: 40, width: 80,),
-                      SizedBox(width: 9,),
-                      Text('TouchNGo')
-                    ],
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'GrabPay',
-                  child: Row(
-                    children: [
-                      Image(image: GrabPayLogo, height: 40, width: 80,),
-                      SizedBox(width: 9,),
-                      Text('TouchNGo')
-                    ],
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'Boost',
-                  child: Row(
-                    children: [
-                      Image(image: BoostLogo, height: 40, width: 80,),
-                      SizedBox(width: 9,),
-                      Text('TouchNGo')
-                    ],
-                  ),
-                )
-              ],
+            StatefulBuilder(
+              builder: (context, setState) {
+
+                _changeAccount(String value) {
+                  model.changeAccount(value);
+                  setState((){});
+                }
+
+                return DropdownButton<String>(
+                  onChanged: _changeAccount,
+                  value: model.account,
+                  hint: Text('Choose Wallet'),
+                  items: [
+                    AccountTypeDropDownMenuItem('TouchNGo'),
+                    AccountTypeDropDownMenuItem('GrabPay'),
+                    AccountTypeDropDownMenuItem('Boost'),
+                    // DropdownMenuItem(
+                    //   value: 'TouchNGo',
+                    //   child: Row(
+                    //     children: [
+                    //       Image(image: TouchNGoLogo, height: 40, width: 80,),
+                    //       SizedBox(width: 9,),
+                    //       Text('TouchNGo')
+                    //     ],
+                    //   ),
+                    // ),
+                    // DropdownMenuItem(
+                    //   value: 'GrabPay',
+                    //   child: Row(
+                    //     children: [
+                    //       Image(image: GrabPayLogo, height: 40, width: 80,),
+                    //       SizedBox(width: 9,),
+                    //       Text('TouchNGo')
+                    //     ],
+                    //   ),
+                    // ),
+                    // DropdownMenuItem(
+                    //   value: 'Boost',
+                    //   child: Row(
+                    //     children: [
+                    //       Image(image: BoostLogo, height: 40, width: 80,),
+                    //       SizedBox(width: 9,),
+                    //       Text('TouchNGo')
+                    //     ],
+                    //   ),
+                    // )
+                  ],
+                );
+              }
             ),
 
             SizedBox(height: 9,),
@@ -79,7 +110,7 @@ class AddAccountDialog extends StatelessWidget {
                 ),
                 child: TextFormField(
                   enabled: model.isBusy ? false : true,
-                  controller: _phone,
+                  controller: model.phone,
                   focusNode: _phoneFocusNode,
                   textInputAction: TextInputAction.next,
                   onEditingComplete: () =>
@@ -114,12 +145,14 @@ class AddAccountDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }, 
                   child: Text('Cancel')
                 ),
                 SizedBox(width: 9,),
                 ElevatedButton(
-                  onPressed: () {}, 
+                  onPressed: _phoneEditingComplete, 
                   child: Text('Next')
                 )
               ],
@@ -133,6 +166,22 @@ class AddAccountDialog extends StatelessWidget {
 
 class AddAccountDialogViewmodel extends BaseViewModel {
   final String type;
+  String account;
 
   AddAccountDialogViewmodel({this.type});
+
+  final TextEditingController phone = TextEditingController();
+
+  changeAccount(String value) {
+    account = value;
+  }
+
+  Future<void> requestAddAccount() async {
+    bool result = await locator<NavigationService>().navigateToView(VerificationPage(phone: '+6'+phone.text,));
+    print('From verification: $result');
+    if(result != null && result) {
+      MockData.accounts.add(Account(type: account, balance: Random.secure().nextInt(1000).toDouble()));
+      locator<NavigationService>().back(result: true);
+    }
+  }
 }

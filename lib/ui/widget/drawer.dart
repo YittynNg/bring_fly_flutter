@@ -1,3 +1,5 @@
+import 'package:bringfly_uniwallet/ui/page/swap/swap_balance_page_view.dart';
+
 import '../../locator.dart';
 import '../../service/auth_service.dart';
 import '../page/bill/bill_page_view.dart';
@@ -31,10 +33,17 @@ class MyDrawer extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanPage()));
                 },
               ),
+              // ListTile(
+              //   leading: Icon(Icons.payments, color: Colors.white),
+              //   title: Text('Pay', style: TextStyle(color: Colors.white),),
+              //   onTap: () {},
+              // ),
               ListTile(
-                leading: Icon(Icons.payments, color: Colors.white),
-                title: Text('Pay', style: TextStyle(color: Colors.white),),
-                onTap: () {},
+                leading: Icon(Icons.compare_arrows, color: Colors.white),
+                title: Text('Swap Balance', style: TextStyle(color: Colors.white),),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SwapBalancePageView()));
+                },
               ),
               ListTile(
                 leading: Icon(Icons.attach_money, color: Colors.white),

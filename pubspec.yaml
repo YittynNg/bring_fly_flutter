@@ -57,6 +57,7 @@ dependencies:
     git:
       url: git://github.com/lukef/qr.flutter.git
   qr_code_scanner: ^0.3.0
+  pin_code_fields: ^6.1.0
 
 dev_dependencies:
   flutter_test:

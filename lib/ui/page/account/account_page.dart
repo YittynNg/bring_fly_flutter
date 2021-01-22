@@ -1,3 +1,5 @@
+import 'package:bringfly_uniwallet/model/accounts.dart';
+
 import '../../widget/transactions_history_list.dart';
 
 import '../../common/appBar.dart';
@@ -9,6 +11,30 @@ import 'top_up_page.dart';
 class AccountPageView extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  final Account account;
+  AccountPageView({this.account});
+
+  AssetImage _typeToImage(String type) {
+    switch(type) {
+      case 'Digi':
+        return DigiLogo;
+      case 'Celcom':
+        return CelcomLogo;
+      case 'Maxis':
+        return MaxisLogo;
+      case 'UMobile':
+        return UMobileLogo;
+      case 'TuneTalk':
+        return TuneTalkLogo;
+      case 'TouchNGo':
+        return TouchNGoLogo;
+      case 'Boost':
+        return BoostLogo;
+      default:
+        return GrabPayLogo;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +59,7 @@ class AccountPageView extends StatelessWidget {
               children: [
                 Image(
                   height: 150, width: 300,
-                  image: GrabPayLogo,
+                  image: _typeToImage(account.type),
                 ),
                 SizedBox(height: 9,),
                 Row(
@@ -41,7 +67,7 @@ class AccountPageView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text('Balance: '),
-                    Text('RM1000.00', style: Theme.of(context).textTheme.headline6),
+                    Text('RM'+account.balance.toStringAsFixed(2), style: Theme.of(context).textTheme.headline6),
                   ],
                 ),
                 SizedBox(height: 9,),

@@ -1,3 +1,5 @@
+import 'package:bringfly_uniwallet/common/mock_data.dart';
+import 'package:bringfly_uniwallet/model/accounts.dart';
 import 'package:bringfly_uniwallet/ui/page/scan/qr_view.dart';
 import 'package:bringfly_uniwallet/ui/page/scan/scan_viewmodel.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
@@ -64,15 +66,19 @@ class ScanPage extends StatelessWidget {
           );
         }
 
-        _goToAmountPage() {
-          model.selectedAccount = true;
+        _goToAmountPage(Account account) {
+          model.selectedAccount = account;
           model.notifyListeners();
         }
 
-        _scanRecipient() {
-          model.selectedType = true;
+        _scanRecipient(String type) {
+          model.selectedType = type;
           model.notifyListeners();
           // Navigator.of(context).push(MsaterialPageRoute(builder: (context) => MyQRView()));
+        }
+
+        _verifyTransaction() async {
+          await model.verifyTransaction();
         }
 
         return Scaffold(
@@ -91,10 +97,10 @@ class ScanPage extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay'),
-                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay'),
-                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay'),
-                          AccountCard(_scanRecipient, type: 'GranPay', name: 'GrabPay')
+                          AccountCard(() => _scanRecipient('DuitNowQR'), type: 'DuitNowQR', name: 'DuitNowQR'),
+                          AccountCard(() => _scanRecipient('GrabPay'), type: 'GrabPay', name: 'GrabPay'),
+                          AccountCard(() => _scanRecipient('TouchNGo'), type: 'TouchNGo', name: 'TouchNGo'),
+                          AccountCard(() => _scanRecipient('Boost'), type: 'Boost', name: 'Boost')
                         ],
                       ),
                     ),
@@ -114,10 +120,8 @@ class ScanPage extends StatelessWidget {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  MyAccountCard(_goToAmountPage),
-                                  MyAccountCard(_goToAmountPage),
-                                  MyAccountCard(_goToAmountPage),
-                                  MyAccountCard(_goToAmountPage)
+                                  for(var acc in MockData.accounts)
+                                    MyAccountCard(() => _goToAmountPage(acc), account: acc,),
                                 ],
                               ),
                             ),
@@ -132,12 +136,12 @@ class ScanPage extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 9, right: 9, top: 9),
                               child: Text('To Recipient'),
                             ),
-                            AccountCard(() {}, type: 'GrabPay', name: 'GrabPay'),
+                            AccountCard(() {}, type: model.selectedType, name: model.selectedType),
                             Padding(
                               padding: const EdgeInsets.only(left: 9, right: 9, top: 9),
                               child: Text('From Account'),
                             ),
-                            MyAccountCard(() {}, type: 'GrabPay', name: 'GrabPay'),
+                            MyAccountCard(() {}, account: model.selectedAccount,),
                             SizedBox(height: 18),
                             // Padding(
                             //   padding: const EdgeInsets.all(9.0),
@@ -186,7 +190,7 @@ class ScanPage extends StatelessWidget {
                                 children: [
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(primary: Colors.green),
-                                    onPressed: () {}, 
+                                    onPressed: _verifyTransaction, 
                                     child: Text('Confirm')
                                   ),
                                 ]

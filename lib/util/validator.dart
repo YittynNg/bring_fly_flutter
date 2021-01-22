@@ -27,8 +27,8 @@ class Validator {
   }
 
   static String pinValidator(String value) {
-    if (value.length < 4) {
-      return "Pin is incorrect";
+    if (value.length != 6) {
+      return "6 digit pin number";
     } else {
       return null;
     }
