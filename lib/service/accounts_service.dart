@@ -26,6 +26,11 @@ class AccountService extends ChangeNotifier {
     transactions = [];
     for(int i = n-1; i >= 0; i--) {
       transactions.add(await locator<DB>().getTransactionBox.getAt(i));
+      // if(i < 5) {
+      //   log.i("modify $i, ${transactions.length - 1}");
+      //   transactions[transactions.length - 1].time = transactions[transactions.length - 1].time.subtract(Duration(days: 7));
+      //   await transactions[transactions.length - 1].save();
+      // }
     }
     notifyListeners();
   }
