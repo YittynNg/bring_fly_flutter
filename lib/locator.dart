@@ -31,7 +31,7 @@ void setupLocator() {
 
   locator.registerLazySingleton(() => API());
   locator.registerLazySingleton(() => AuthService(service: 'https://imagechat.getitqec.com'));
-  locator.registerLazySingleton(() => AccountService());
+  locator.registerLazySingleton(() => AccountService()..init());
 
   // locator.registerLazySingleton(() => MessagingTokenService(service: 'https://imagechat.getitqec.com'));
   // locator.registerLazySingleton(() => PushNotificationsManager());

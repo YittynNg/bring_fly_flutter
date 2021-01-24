@@ -5,6 +5,7 @@ import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../../locator.dart';
 import 'swap_balance_viewmodel.dart';
@@ -27,7 +28,11 @@ final FocusNode _amountFocusNode = FocusNode();
 
           _amountEditingComplete() async {
             if(_formKey.currentState.validate()) {
-              await model.swap();
+              FocusScope.of(context).unfocus();
+              var result = await locator<DialogService>().showConfirmationDialog(title: 'Swap Balance', description: 'Are you sure wanna swap balance?', confirmationTitle: 'Proceed');
+              if(result.confirmed) {
+                await model.swap();
+              }
             }
           }
 
@@ -146,11 +151,16 @@ final FocusNode _amountFocusNode = FocusNode();
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(primary: Colors.green),
-                          onPressed: () {}, 
-                          child: Text('Confirm')
-                        )
+                        model.isBusy
+                          ? SizedBox(
+                            height: 40, width: 40,
+                            child: CircularProgressIndicator(),
+                          )
+                          : ElevatedButton(
+                            style: ElevatedButton.styleFrom(primary: Colors.green),
+                            onPressed: _amountEditingComplete, 
+                            child: Text('Confirm')
+                          )
                       ],
                     ),
                   )

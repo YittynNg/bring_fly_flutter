@@ -33,16 +33,7 @@ class AddAccountDialog extends StatelessWidget {
         _phoneEditingComplete() async {
           if (_formKey.currentState.validate()) {
             FocusScope.of(context).unfocus();
-            // await model.checkCanSignIn(_email.text, _password.text);
-            // Navigator.pushNamed(context, RootPageRoute);
             await model.requestAddAccount();
-            // bool result = await Navigator.of(context).push<bool>(MaterialPageRoute(builder: (context) {
-            //   return VerificationPage(phone: '+6'+_phone.text,);
-            // }));
-            // print('From verification: $result');
-            // if(result != null && result) {
-            //   Navigator.of(context).pop(true);
-            // }
           }
         }
 
@@ -151,7 +142,7 @@ class AddAccountDialogViewmodel extends BaseViewModel {
     bool result = await locator<NavigationService>().navigateToView(VerificationPage(phone: '+6'+phone.text,));
     print('From verification: $result');
     if(result != null && result) {
-      locator<AccountService>().addAccount(Account(type: account, balance: Random.secure().nextInt(1000).toDouble()));
+      await locator<AccountService>().addAccount(Account(type: account, balance: Random.secure().nextInt(1000).toDouble(), phone: '+6'+phone.text));
       locator<NavigationService>().back(result: true);
     }
   }

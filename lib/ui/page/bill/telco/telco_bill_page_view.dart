@@ -5,6 +5,7 @@ import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class TelcoBillPageView extends StatelessWidget {
 
@@ -70,10 +71,13 @@ class _BottomSheetForm extends StatelessWidget {
     Function(void Function()) setErrorState;
     String errorText = '';
 
+    Function(void Function()) setLoadingState;
+    bool loading = false;
+
     int amount = 30;
     Account account;
 
-    _submit() {
+    _submit() async {
       if(_formKey.currentState.validate()) {
         FocusScope.of(context).unfocus();
         if(amount == null) {
@@ -88,10 +92,16 @@ class _BottomSheetForm extends StatelessWidget {
           });
           return;
         }
+        setErrorState(() {
+          errorText = '';
+        });
+        setLoadingState(() {
+          loading = true;
+        });
+        await locator<AccountService>().pay(account, amount.toDouble(), note: 'Top up');
+        Navigator.pop(context);
+        locator<DialogService>().showDialog(title: 'Top up', description: 'Your top up is success');
       }
-      setErrorState(() {
-        errorText = '';
-      });
     }
 
     return Material(
@@ -230,10 +240,20 @@ class _BottomSheetForm extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
-                      onPressed: _submit, 
-                      child: Text('Confirm')
+                    StatefulBuilder(
+                      builder: (context, setState) {
+                        setLoadingState = setState;
+                        return loading
+                          ? SizedBox(
+                            height: 40,  width: 40,
+                            child: CircularProgressIndicator(),
+                          )
+                          : ElevatedButton(
+                            style: ElevatedButton.styleFrom(primary: Colors.green),
+                            onPressed: _submit, 
+                            child: Text('Confirm')
+                          );
+                      }
                     )
                   ],
                 ),

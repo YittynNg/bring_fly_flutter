@@ -1,4 +1,5 @@
 import 'package:bringfly_uniwallet/locator.dart';
+import 'package:bringfly_uniwallet/logger.dart';
 import 'package:bringfly_uniwallet/model/account.dart';
 import 'package:bringfly_uniwallet/model/transaction.dart';
 import 'package:bringfly_uniwallet/service/db.dart';
@@ -9,11 +10,14 @@ class AccountService extends ChangeNotifier {
 
   List<Transaction> transactions = [];
 
+  final log = getLogger('AccountService');
+
   init() async {
     while(!locator<DB>().loaded) {
       await Future.delayed(Duration(milliseconds: 100));
     }
     int n = locator<DB>().getAccountBox.length;
+    log.i('$n accounts');
     accounts = [];
     for(int i = 0; i < n; i++) {
       accounts.add(locator<DB>().getAccountBox.getAt(i));
@@ -44,9 +48,11 @@ class AccountService extends ChangeNotifier {
     return list;
   }
 
-  void addAccount(Account acc) async {
-    await locator<DB>().getAccountBox.add(acc);
+  Future<void> addAccount(Account acc) async {
+    int r = await locator<DB>().getAccountBox.add(acc);
+    log.i('Add accounts: $r');
     accounts.add(acc);
+    notifyListeners();
   }
 
   void deleteAccount(Account acc) async {
@@ -101,6 +107,7 @@ class AccountService extends ChangeNotifier {
     );
     await addTransaction(tFrom);
     await addTransaction(tTo);
+    notifyListeners();
   }
 
   Future<void> topUp(Account acc, double amount, {String note = ''}) async {
@@ -118,6 +125,7 @@ class AccountService extends ChangeNotifier {
       title: 'Top Up '+note
     );
     await addTransaction(t);
+    notifyListeners();
   }
 
   Future<void> pay(Account acc, double amount, {String note = ''}) async {
@@ -132,5 +140,11 @@ class AccountService extends ChangeNotifier {
       title: 'Pay '+note
     );
     await addTransaction(t);
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

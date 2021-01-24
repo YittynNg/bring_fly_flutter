@@ -18,6 +18,8 @@ class ScanViewModel extends BaseViewModel {
     print('From verification: $result');
     if(result != null && result) {
       await locator<AccountService>().pay(selectedAccount, amount);
+      locator<NavigationService>().back();
+      locator<DialogService>().showDialog(title: 'Top up', description: 'Your top up is success');
     }
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import '../util/validator.dart';
 import 'package:logger/logger.dart';
 import '_exception.dart';
-import '../model/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../util/network_config.dart';
@@ -30,7 +29,6 @@ class AuthService extends ChangeNotifier {
   Logger log = getLogger("AuthService");
   final String service;
 
-  User user;
   bool firstTime = false;
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -85,45 +83,5 @@ class AuthService extends ChangeNotifier {
     _status = AuthStatus.Unauthenticated;
     locator<API>().setAuthorization(null, null);
     notifyListeners();
-  }
-
-  // return boolean, whether is a first time user
-  Future<User> getUser(String id) async {
-    try {
-      try {
-        Map<String, dynamic> result = await locator<API>().get(service, '/api/user/user/$id');
-        var user = User.fromJson(result);
-        return user;
-      } catch(e) {
-        print('--- API ERR ---');
-        // _status = AuthStatus.Unauthenticated;
-        notifyListeners();
-        log.e(e);
-        throw(checkServiceError(e));
-      }
-    } catch(e) {
-      print('--- getUser Err ---');
-      throw(e);
-    }
-  }
-
-  Future<User> searchUser(String word) async {
-    // use email
-    try {
-      try {
-        Map<String, dynamic> result = await locator<API>().get(service, '/api/user/search/$word');
-        var user = User.fromJson(result);
-        return user;
-      } catch(e) {
-        print('--- API ERR ---');
-        // _status = AuthStatus.Unauthenticated;
-        notifyListeners();
-        log.e(e);
-        throw(checkServiceError(e));
-      }
-    } catch(e) {
-      print('--- getUser Err ---');
-      throw(e);
-    }
   }
 }

@@ -4,7 +4,7 @@ import 'account.dart';
 
 part 'transaction.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 254)
 class Transaction extends HiveObject {
   @HiveField(0)
   DateTime time;

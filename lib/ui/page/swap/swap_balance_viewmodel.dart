@@ -2,6 +2,7 @@ import 'package:bringfly_uniwallet/model/account.dart';
 import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../../locator.dart';
 
@@ -16,5 +17,6 @@ class SwapBalanceViewModel extends BaseViewModel {
     setBusy(true);
     await locator<AccountService>().swapBalance(accFrom, accTo, _amount);
     setBusy(false);
+    locator<DialogService>().showDialog(title: 'Swap', description: 'Balance is success swaped');
   }
 }

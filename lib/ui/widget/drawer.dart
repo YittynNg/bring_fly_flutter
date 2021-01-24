@@ -1,5 +1,6 @@
 import 'package:bringfly_uniwallet/ui/page/pay/pay_with_qr.dart';
 import 'package:bringfly_uniwallet/ui/page/swap/swap_balance_page_view.dart';
+import 'package:bringfly_uniwallet/ui/page/transaction/transaction_page_view.dart';
 
 import '../../locator.dart';
 import '../../service/auth_service.dart';
@@ -65,7 +66,9 @@ class MyDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.history, color: Colors.white),
                 title: Text('Transaction History', style: TextStyle(color: Colors.white),),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionPageView()));
+                },
               ),
               ListTile(
                 leading: Icon(Icons.list, color: Colors.white),

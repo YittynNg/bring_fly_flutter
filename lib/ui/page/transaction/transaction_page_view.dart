@@ -1,26 +1,19 @@
-import 'package:bringfly_uniwallet/locator.dart';
-import 'package:bringfly_uniwallet/model/account.dart';
-import 'package:bringfly_uniwallet/service/accounts_service.dart';
+import 'package:bringfly_uniwallet/ui/page/transaction/transaction_history_viewmodel.dart';
 import 'package:bringfly_uniwallet/ui/widget/transaction_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
-class TransactionsHistoryList extends StatelessWidget {
-
-  final Account account;
-
-  TransactionsHistoryList(this.account);
-  
-
+class TransactionPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 3,
-      type: MaterialType.card,
-      child: Container(
-        height: 300,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18),
-          child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Transactions'),
+      ),
+      body: ViewModelBuilder<TransactionHistoryViewModel>.reactive(
+        viewModelBuilder: () => TransactionHistoryViewModel(),
+        builder: (context, model, _) {
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 9,),
@@ -35,7 +28,7 @@ class TransactionsHistoryList extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      for(var transaction in locator<AccountService>().getTransactionsOf(account))
+                      for(var transaction in model.transactions)
                         TransactionWidget(transaction),
                       SizedBox(height: 9,)
                     ],
@@ -43,8 +36,8 @@ class TransactionsHistoryList extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
+          );
+        }
       ),
     );
   }

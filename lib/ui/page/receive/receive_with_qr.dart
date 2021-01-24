@@ -17,7 +17,9 @@ class ReceiveWithQRPageView extends StatelessWidget {
 
     _showQRWidget() async {
       // showModalBottomSheet(context: context, builder: (context) => TransactionsHistoryList());
-      _bottomSheetController?.close();
+      try {
+        _bottomSheetController?.close();
+      } catch(e) {}
       _bottomSheetController = _scaffoldKey.currentState.showBottomSheet((context) => AccountQRWidget());
     }
     

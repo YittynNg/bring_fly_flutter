@@ -22,12 +22,21 @@ class TopUpPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    _amountEditingComplete() async {
+    bool _amountEditingComplete() {
       if(_formKey.currentState.validate()) {
         FocusScope.of(context).unfocus();
+        return true;
       }
+      return false;
       // check payment gateway
-      await locator<AccountService>().topUp(account, double.parse(_amount.text));
+    }
+
+    Future<void> _submit() async {
+      if(_formKey.currentState.validate()) {
+        FocusScope.of(context).unfocus();
+        await locator<AccountService>().topUp(account, double.parse(_amount.text));
+        Navigator.of(context).pop(true);
+      }
     }
 
     return Scaffold(
@@ -103,7 +112,7 @@ class TopUpPageView extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(primary: Colors.green),
-            onPressed: () {}, 
+            onPressed: _submit, 
             child: Text('Confirm')
           ),
           SizedBox(height: 9),

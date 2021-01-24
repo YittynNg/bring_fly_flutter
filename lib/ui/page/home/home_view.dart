@@ -40,6 +40,7 @@ class Home extends StatelessWidget {
 
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => _model,
+      onModelReady: (model) => model.init(),
       builder: (context, model, _) {
         return Scaffold(
           key: _scaffoldKey,

@@ -1,4 +1,6 @@
 import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/ui/page/account/account_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 import '../../widget/transactions_history_list.dart';
 
@@ -51,53 +53,58 @@ class AccountPageView extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: TransparentAppBar(context),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  height: 150, width: 300,
-                  image: _typeToImage(account.type),
-                ),
-                SizedBox(height: 9,),
-                Row(
+      body: ViewModelBuilder<AccountViewModel>.reactive(
+        viewModelBuilder: () => AccountViewModel(account),
+        builder: (context, model, _) {
+          return Column(
+            children: [
+              Expanded(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Balance: '),
-                    Text('RM'+account.balance.toStringAsFixed(2), style: Theme.of(context).textTheme.headline6),
+                    Image(
+                      height: 150, width: 300,
+                      image: _typeToImage(account.type),
+                    ),
+                    SizedBox(height: 9,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('Balance: '),
+                        Text('RM'+model.acc.balance.toStringAsFixed(2), style: Theme.of(context).textTheme.headline6),
+                      ],
+                    ),
+                    SizedBox(height: 9,),
+                    ElevatedButton(
+                      onPressed: _goToTopUpPage, 
+                      child: Text('Top Up')
+                    ),
+
+                    SizedBox(height: 60,),
                   ],
                 ),
-                SizedBox(height: 9,),
-                ElevatedButton(
-                  onPressed: _goToTopUpPage, 
-                  child: Text('Top Up')
-                ),
-
-                SizedBox(height: 60,),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.red),
-                onPressed: () {}, 
-                child: Text('Remove Account')
               ),
-              SizedBox(width: 9,),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.green),
-                onPressed: _showTransactionsHistory, 
-                child: Text('Transaction History')
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                    onPressed: () {}, 
+                    child: Text('Remove Account')
+                  ),
+                  SizedBox(width: 9,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.green),
+                    onPressed: _showTransactionsHistory, 
+                    child: Text('Transaction History')
+                  ),
+                ],
               ),
+              SizedBox(height: 9),
             ],
-          ),
-          SizedBox(height: 9),
-        ],
+          );
+        }
       ),
     );
   }

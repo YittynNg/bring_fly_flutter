@@ -53,8 +53,8 @@ class TransactionWidget extends StatelessWidget{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Title', style: Theme.of(context).textTheme.subtitle1,),
-                  Text('Time', style: Theme.of(context).textTheme.overline,),
+                  Text('${transaction.title}', style: Theme.of(context).textTheme.subtitle1,),
+                  Text('${transaction.time}', style: Theme.of(context).textTheme.overline,),
                 ],
               ),
             ),
