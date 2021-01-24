@@ -166,9 +166,9 @@ class _VerificationPageState extends State<VerificationPage> {
               builder: (context, model, _) {
                 return SingleChildScrollView(
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
+                    // decoration: BoxDecoration(
+                    //   color: Colors.white,
+                    // ),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
@@ -205,6 +205,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 30),
                             child: PinCodeTextField(
+                              // backgroundColor: Theme.of(context).backgroundColor,
                               appContext: context,
                               keyboardType: TextInputType.number,
                               length: 6,

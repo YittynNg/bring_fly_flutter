@@ -1,3 +1,4 @@
+import 'package:bringfly_uniwallet/ui/page/pay/pay_with_qr.dart';
 import 'package:bringfly_uniwallet/ui/page/swap/swap_balance_page_view.dart';
 
 import '../../locator.dart';
@@ -33,11 +34,13 @@ class MyDrawer extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanPage()));
                 },
               ),
-              // ListTile(
-              //   leading: Icon(Icons.payments, color: Colors.white),
-              //   title: Text('Pay', style: TextStyle(color: Colors.white),),
-              //   onTap: () {},
-              // ),
+              ListTile(
+                leading: Icon(Icons.payments, color: Colors.white),
+                title: Text('Pay', style: TextStyle(color: Colors.white),),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => PayWithQRPageView()));
+                },
+              ),
               ListTile(
                 leading: Icon(Icons.compare_arrows, color: Colors.white),
                 title: Text('Swap Balance', style: TextStyle(color: Colors.white),),

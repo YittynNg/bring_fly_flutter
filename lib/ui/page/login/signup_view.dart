@@ -89,6 +89,7 @@ class SignUpView extends StatelessWidget {
                                     enabled: model.isBusy ? false : true,
                                     controller: _name,
                                     focusNode: _nameFocusNode,
+                                    style: TextStyle(color: Colors.black),
                                     textInputAction: TextInputAction.next,
                                     onEditingComplete: () =>
                                         _nameEditingComplete(),
@@ -119,6 +120,7 @@ class SignUpView extends StatelessWidget {
                                     enabled: model.isBusy ? false : true,
                                     controller: _phone,
                                     focusNode: _phoneFocusNode,
+                                    style: TextStyle(color: Colors.black),
                                     textInputAction: TextInputAction.next,
                                     onEditingComplete: () =>
                                         _phoneEditingComplete(),
@@ -150,6 +152,7 @@ class SignUpView extends StatelessWidget {
                                     enabled: model.isBusy ? false : true,
                                     controller: _email,
                                     focusNode: _emailFocusNode,
+                                    style: TextStyle(color: Colors.black),
                                     textInputAction: TextInputAction.next,
                                     onEditingComplete: () =>
                                         _emailEditingComplete(),
@@ -183,6 +186,7 @@ class SignUpView extends StatelessWidget {
                                         enabled: model.isBusy ? false : true,
                                         controller: _password,
                                         focusNode: _passwordFocusNode,
+                                    style: TextStyle(color: Colors.black),
                                         onEditingComplete: () => _submit(model),
                                         textInputAction: TextInputAction.done,
                                         keyboardType: TextInputType.visiblePassword,

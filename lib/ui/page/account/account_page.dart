@@ -1,4 +1,4 @@
-import 'package:bringfly_uniwallet/model/accounts.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
 
 import '../../widget/transactions_history_list.dart';
 
@@ -40,11 +40,11 @@ class AccountPageView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     _goToTopUpPage() async {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopUpPageView()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopUpPageView(account)));
     }
 
     _showTransactionsHistory() async {
-      showModalBottomSheet(context: context, builder: (context) => TransactionsHistoryList());
+      showModalBottomSheet(context: context, builder: (context) => TransactionsHistoryList(account));
       // _scaffoldKey.currentState.showBottomSheet((context) => TransactionsHistoryList());
     }
 

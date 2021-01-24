@@ -1,6 +1,6 @@
 import 'package:bringfly_uniwallet/common/mock_data.dart';
+import 'package:bringfly_uniwallet/service/db.dart';
 import 'package:flutter/foundation.dart';
-import './notification/push_notification.dart';
 import '../util/validator.dart';
 import 'package:logger/logger.dart';
 import '_exception.dart';
@@ -44,8 +44,11 @@ class AuthService extends ChangeNotifier {
 
   Future<void> init() async {
     log.i('loadToken');
-    // await signInSilently();
-    _status = AuthStatus.Unauthenticated;
+    while(!locator<DB>().loaded) {
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+    if(locator<DB>().checkAuthToken()) _status = AuthStatus.Authenticated;
+    else _status = AuthStatus.Unauthenticated;
     notifyListeners();
   }
 
@@ -55,15 +58,18 @@ class AuthService extends ChangeNotifier {
       await Future.delayed(Duration(seconds: 1));
       if(email != MockData.email || password != MockData.password) {
         _status = AuthStatus.Unauthenticated;
+        locator<DB>().setAuthToken(false);
         notifyListeners();
         throw(Exception('Email or password incorrect'));
       }
       _status = AuthStatus.Authenticated;
+      locator<DB>().setAuthToken(true);
       notifyListeners();
       return true;
     } catch(e) {
       print('--- GOOGLE sign in ERR ---');
       _status = AuthStatus.Unauthenticated;
+      locator<DB>().setAuthToken(false);
       notifyListeners();
       throw(e);
     }

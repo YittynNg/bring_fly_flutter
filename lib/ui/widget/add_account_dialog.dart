@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:bringfly_uniwallet/common/mock_data.dart';
 import 'package:bringfly_uniwallet/locator.dart';
-import 'package:bringfly_uniwallet/model/accounts.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/constant/logo.dart';
 import 'package:bringfly_uniwallet/ui/page/verify/verification_page_view.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
@@ -65,36 +66,6 @@ class AddAccountDialog extends StatelessWidget {
                     AccountTypeDropDownMenuItem('TouchNGo'),
                     AccountTypeDropDownMenuItem('GrabPay'),
                     AccountTypeDropDownMenuItem('Boost'),
-                    // DropdownMenuItem(
-                    //   value: 'TouchNGo',
-                    //   child: Row(
-                    //     children: [
-                    //       Image(image: TouchNGoLogo, height: 40, width: 80,),
-                    //       SizedBox(width: 9,),
-                    //       Text('TouchNGo')
-                    //     ],
-                    //   ),
-                    // ),
-                    // DropdownMenuItem(
-                    //   value: 'GrabPay',
-                    //   child: Row(
-                    //     children: [
-                    //       Image(image: GrabPayLogo, height: 40, width: 80,),
-                    //       SizedBox(width: 9,),
-                    //       Text('TouchNGo')
-                    //     ],
-                    //   ),
-                    // ),
-                    // DropdownMenuItem(
-                    //   value: 'Boost',
-                    //   child: Row(
-                    //     children: [
-                    //       Image(image: BoostLogo, height: 40, width: 80,),
-                    //       SizedBox(width: 9,),
-                    //       Text('TouchNGo')
-                    //     ],
-                    //   ),
-                    // )
                   ],
                 );
               }
@@ -120,7 +91,7 @@ class AddAccountDialog extends StatelessWidget {
                   validator: Validator.mobileValidator,
                   autocorrect: false,
                   decoration: InputDecoration(
-                    fillColor: Colors.grey[100],
+                    fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                     filled: true,
                     labelText: "Phone",
                     labelStyle: TextStyle(
@@ -180,7 +151,7 @@ class AddAccountDialogViewmodel extends BaseViewModel {
     bool result = await locator<NavigationService>().navigateToView(VerificationPage(phone: '+6'+phone.text,));
     print('From verification: $result');
     if(result != null && result) {
-      MockData.accounts.add(Account(type: account, balance: Random.secure().nextInt(1000).toDouble()));
+      locator<AccountService>().addAccount(Account(type: account, balance: Random.secure().nextInt(1000).toDouble()));
       locator<NavigationService>().back(result: true);
     }
   }

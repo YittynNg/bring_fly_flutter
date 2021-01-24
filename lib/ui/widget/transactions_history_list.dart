@@ -1,7 +1,16 @@
+import 'package:bringfly_uniwallet/locator.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/widget/transaction_widget.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsHistoryList extends StatelessWidget {
+
+  final Account account;
+
+  TransactionsHistoryList(this.account);
+  
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -26,14 +35,8 @@ class TransactionsHistoryList extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      TransactionWidget(),
-                      TransactionWidget(),
-                      TransactionWidget(),
-                      TransactionWidget(),
-                      TransactionWidget(),
-                      TransactionWidget(),
-                      TransactionWidget(),
-                      TransactionWidget(),
+                      for(var transaction in locator<AccountService>().getTransactionsOf(account))
+                        TransactionWidget(transaction),
                       SizedBox(height: 9,)
                     ],
                   ),

@@ -1,4 +1,4 @@
-import '../../model/accounts.dart';
+import '../../model/account.dart';
 import '../constant/logo.dart';
 import 'package:flutter/material.dart';
 

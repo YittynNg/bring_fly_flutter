@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../locator.dart';
 import '../../constant/logo.dart';
 
-class ReceiveWithQRPageView extends StatelessWidget {
+class PayWithQRPageView extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 

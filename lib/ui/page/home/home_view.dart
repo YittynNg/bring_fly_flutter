@@ -1,5 +1,5 @@
 import 'package:bringfly_uniwallet/common/mock_data.dart';
-import 'package:bringfly_uniwallet/model/accounts.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
 import 'package:stacked/stacked.dart';
 
 import '../account/account_page.dart';
@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
       bool added = await showDialog<bool>(
         context: context,
         builder: (context) {
-          return AddAccountDialog();
+          return AddAccountDialog(type: "E-Wallet",);
         }
       );
       print('From AddAccountDialog: $added');
@@ -62,7 +62,7 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('RM '+MockData.totalBalance().toStringAsFixed(2), style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white),),
+                    Text('RM '+model.totalBalance().toStringAsFixed(2), style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white),),
                     Text('Current Balance', style: Theme.of(context).textTheme.overline.copyWith(color: Colors.white),),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +91,7 @@ class Home extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: 5,),
-                      for(var acc in MockData.accounts)
+                      for(var acc in model.accounts)
                         MyAccountCard(() => _goToAccountPage(acc), account: acc,),
                     ],
                   ),

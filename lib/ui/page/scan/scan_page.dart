@@ -1,5 +1,6 @@
 import 'package:bringfly_uniwallet/common/mock_data.dart';
-import 'package:bringfly_uniwallet/model/accounts.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/page/scan/qr_view.dart';
 import 'package:bringfly_uniwallet/ui/page/scan/scan_viewmodel.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../../../locator.dart';
 
 class ScanPage extends StatelessWidget {
 
@@ -20,10 +23,12 @@ class ScanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    _amountEditingComplete() async {
+    bool _amountEditingComplete() {
       if(_formKey.currentState.validate()) {
         FocusScope.of(context).unfocus();
+        return true;
       }
+      return false;
     }
 
     // QRViewController controller;
@@ -78,7 +83,8 @@ class ScanPage extends StatelessWidget {
         }
 
         _verifyTransaction() async {
-          await model.verifyTransaction();
+          if(_amountEditingComplete())
+            await model.verifyTransaction(double.parse(_amount.text));
         }
 
         return Scaffold(
@@ -120,7 +126,7 @@ class ScanPage extends StatelessWidget {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  for(var acc in MockData.accounts)
+                                  for(var acc in locator<AccountService>().accounts)
                                     MyAccountCard(() => _goToAmountPage(acc), account: acc,),
                                 ],
                               ),
@@ -165,7 +171,7 @@ class ScanPage extends StatelessWidget {
                                   validator: Validator.amountValidator,
                                   autocorrect: false,
                                   decoration: InputDecoration(
-                                    fillColor: Colors.grey[100],
+                                    fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                                     filled: true,
                                     labelText: "Enter Amount",
                                     labelStyle: TextStyle(

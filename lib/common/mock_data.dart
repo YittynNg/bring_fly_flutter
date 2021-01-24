@@ -1,4 +1,4 @@
-import '../model/accounts.dart';
+import '../model/account.dart';
 import '../model/transaction.dart';
 
 class MockData {
@@ -34,19 +34,19 @@ class MockData {
     Transaction(
       amount: -30,
       title: 'Digi',
-      account: 'GrabPay',
+      account: accounts[0],
       time: DateTime(2020, 12, 29, 15, 24, 32)
     ),
     Transaction(
       amount: -22.75,
       title: '99speedmart',
-      account: 'Boost',
+      account: accounts[1],
       time: DateTime(2020, 12, 28, 10, 02, 44)
     ),
     Transaction(
       amount: -30,
       title: '99speedmart',
-      account: 'Boost',
+      account: accounts[2],
       time: DateTime(2020, 12, 28, 10, 02, 44)
     )
   ];

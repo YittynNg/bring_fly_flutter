@@ -80,6 +80,7 @@ class ForgotPasswordView extends StatelessWidget {
                                     enabled: model.isBusy ? false : true,
                                     controller: _email,
                                     focusNode: _emailFocusNode,
+                                    style: TextStyle(color: Colors.black),
                                     textInputAction: TextInputAction.next,
                                     onEditingComplete: () =>
                                         _submit(model),

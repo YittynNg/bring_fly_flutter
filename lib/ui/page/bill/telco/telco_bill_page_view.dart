@@ -1,5 +1,7 @@
 import 'package:bringfly_uniwallet/common/mock_data.dart';
-import 'package:bringfly_uniwallet/model/accounts.dart';
+import 'package:bringfly_uniwallet/locator.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +125,7 @@ class _BottomSheetForm extends StatelessWidget {
                     validator: Validator.mobileValidator,
                     autocorrect: false,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[100],
+                      fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                       filled: true,
                       labelText: "Mobile Number",
                       labelStyle: TextStyle(
@@ -159,7 +161,7 @@ class _BottomSheetForm extends StatelessWidget {
                       value: account,
                       hint: Text('Choose Wallet'),
                       items: [
-                        for(var acc in MockData.accounts)
+                        for(var acc in locator<AccountService>().accounts)
                           AccountDropDownMenuItem(acc)
                       ],
                     );

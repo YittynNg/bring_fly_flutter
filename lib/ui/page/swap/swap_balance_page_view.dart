@@ -1,10 +1,12 @@
 import 'package:bringfly_uniwallet/common/mock_data.dart';
-import 'package:bringfly_uniwallet/model/accounts.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/widget/account_widget.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../locator.dart';
 import 'swap_balance_viewmodel.dart';
 
 class SwapBalancePageView extends StatelessWidget {
@@ -14,8 +16,6 @@ final FocusNode _amountFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-
-    _amountEditingComplete() {}
     
     return Scaffold(
       appBar: AppBar(
@@ -24,6 +24,13 @@ final FocusNode _amountFocusNode = FocusNode();
       body: ViewModelBuilder<SwapBalanceViewModel>.reactive(
         viewModelBuilder: () => SwapBalanceViewModel(), 
         builder: (context, model, _) {
+
+          _amountEditingComplete() async {
+            if(_formKey.currentState.validate()) {
+              await model.swap();
+            }
+          }
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +54,7 @@ final FocusNode _amountFocusNode = FocusNode();
                             value: model.accFrom,
                             hint: Text('Choose Wallet'),
                             items: [
-                              for(var acc in MockData.accounts)
+                              for(var acc in locator<AccountService>().accounts)
                                 AccountDropDownMenuItem(acc)
                             ],
                           );
@@ -77,7 +84,7 @@ final FocusNode _amountFocusNode = FocusNode();
                               value: model.accTo,
                               hint: Text('Choose Wallet'),
                               items: [
-                                for(var acc in MockData.accounts)
+                                for(var acc in locator<AccountService>().accounts)
                                   AccountDropDownMenuItem(acc)
                               ],
                             );
@@ -109,7 +116,7 @@ final FocusNode _amountFocusNode = FocusNode();
                             validator: Validator.amountValidator,
                             autocorrect: false,
                             decoration: InputDecoration(
-                              fillColor: Colors.grey[100],
+                              fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                               filled: true,
                               labelText: "Amount",
                               labelStyle: TextStyle(
@@ -129,6 +136,10 @@ final FocusNode _amountFocusNode = FocusNode();
                       ],
                     ),
                   ),
+                SizedBox(
+                  height: 40,
+                  child: Text(model.accFrom == model.accTo && model.accTo != null? 'Choose a different account' : '', style: TextStyle(color: Colors.red),),
+                ),
                 if(model.accTo != null)
                   Padding(
                     padding: const EdgeInsets.all(9.0),

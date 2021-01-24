@@ -81,6 +81,7 @@ class LoginView extends StatelessWidget {
                                     enabled: model.isBusy ? false : true,
                                     controller: _email,
                                     focusNode: _emailFocusNode,
+                                    style: TextStyle(color: Colors.black),
                                     textInputAction: TextInputAction.next,
                                     onEditingComplete: () =>
                                         _emailEditingComplete(),
@@ -114,6 +115,7 @@ class LoginView extends StatelessWidget {
                                         enabled: model.isBusy ? false : true,
                                         controller: _password,
                                         focusNode: _passwordFocusNode,
+                                        style: TextStyle(color: Colors.black),
                                         onEditingComplete: () => _submit(model),
                                         textInputAction: TextInputAction.done,
                                         keyboardType: TextInputType.visiblePassword,

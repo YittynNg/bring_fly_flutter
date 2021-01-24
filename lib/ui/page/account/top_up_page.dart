@@ -1,3 +1,6 @@
+import 'package:bringfly_uniwallet/locator.dart';
+import 'package:bringfly_uniwallet/model/account.dart';
+import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
 
 import '../../common/appBar.dart';
@@ -12,6 +15,10 @@ class TopUpPageView extends StatelessWidget {
   final TextEditingController _amount = TextEditingController();//..text = '000000';
   final FocusNode _amountFocusNode = FocusNode();
 
+  final Account account;
+
+  TopUpPageView(this.account);
+
   @override
   Widget build(BuildContext context) {
 
@@ -19,6 +26,8 @@ class TopUpPageView extends StatelessWidget {
       if(_formKey.currentState.validate()) {
         FocusScope.of(context).unfocus();
       }
+      // check payment gateway
+      await locator<AccountService>().topUp(account, double.parse(_amount.text));
     }
 
     return Scaffold(
@@ -57,7 +66,7 @@ class TopUpPageView extends StatelessWidget {
                             validator: Validator.amountValidator,
                             autocorrect: false,
                             decoration: InputDecoration(
-                              fillColor: Colors.grey[100],
+                              fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                               filled: true,
                               labelText: "Amount",
                               labelStyle: TextStyle(
