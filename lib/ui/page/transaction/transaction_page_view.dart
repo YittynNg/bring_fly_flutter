@@ -29,7 +29,7 @@ class TransactionPageView extends StatelessWidget {
                   child: Column(
                     children: [
                       for(var transaction in model.transactions)
-                        TransactionWidget(transaction),
+                        TransactionWidget(transaction, logo: true,),
                       SizedBox(height: 9,)
                     ],
                   ),
