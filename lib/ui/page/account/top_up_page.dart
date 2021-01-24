@@ -39,6 +39,19 @@ class TopUpPageView extends StatelessWidget {
       }
     }
 
+    AssetImage _typeToImage(String type) {
+      switch(type) {
+        case 'TouchNGo':
+          return TouchNGoLogo;
+        case 'Boost':
+          return BoostLogo;
+        case 'GrabPay':
+          return GrabPayLogo;
+        default:
+          return DuitNowQR;
+      }
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: TransparentAppBar(context),
@@ -50,7 +63,7 @@ class TopUpPageView extends StatelessWidget {
                 children: [
                   Image(
                     height: 150, width: 300,
-                    image: GrabPayLogo,
+                    image: _typeToImage(account.type),
                   ),
                   SizedBox(height: 9,),
                   Padding(

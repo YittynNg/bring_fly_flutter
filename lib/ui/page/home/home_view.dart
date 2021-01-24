@@ -34,6 +34,19 @@ class Home extends StatelessWidget {
       }
     }
 
+    _addBank() async {
+      bool added = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AddAccountDialog(type: "Bank",);
+        }
+      );
+      print('From AddAccountDialog: $added');
+      if(added != null && added) {
+        _model.notifyListeners();
+      }
+    }
+
     _goToAccountPage(Account account) {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountPageView(account: account)));
     }
@@ -74,7 +87,7 @@ class Home extends StatelessWidget {
                         ),
                         SizedBox(width: 6,),
                         ElevatedButton(
-                          onPressed: null, 
+                          onPressed: _addBank, 
                           child: Text('Add Bank')
                         ),
                         SizedBox(width: 6,),

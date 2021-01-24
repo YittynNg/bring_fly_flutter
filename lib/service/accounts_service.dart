@@ -5,6 +5,12 @@ import 'package:bringfly_uniwallet/model/transaction.dart';
 import 'package:bringfly_uniwallet/service/db.dart';
 import 'package:flutter/foundation.dart';
 
+const List<String> Accounts = [
+  "TouchNGo",
+  "GrabPay",
+  "Boost"
+];
+
 class AccountService extends ChangeNotifier {
   List<Account> accounts = [];
 
@@ -12,6 +18,7 @@ class AccountService extends ChangeNotifier {
 
   final log = getLogger('AccountService');
 
+  /// load balance
   init() async {
     while(!locator<DB>().loaded) {
       await Future.delayed(Duration(milliseconds: 100));
@@ -35,6 +42,7 @@ class AccountService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// calculate balance
   double totalBalance() {
     double total = 0;
     for(var acc in accounts) {
@@ -43,6 +51,7 @@ class AccountService extends ChangeNotifier {
     return total;
   }
 
+  /// get transaction
   List<Transaction> getTransactionsOf(Account acc) {
     List<Transaction> list = [];
     for(var transaction in transactions) {
@@ -53,6 +62,7 @@ class AccountService extends ChangeNotifier {
     return list;
   }
 
+  /// add account
   Future<void> addAccount(Account acc) async {
     int r = await locator<DB>().getAccountBox.add(acc);
     log.i('Add accounts: $r');

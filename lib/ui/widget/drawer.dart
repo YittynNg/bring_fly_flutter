@@ -1,4 +1,5 @@
 import 'package:bringfly_uniwallet/ui/page/pay/pay_with_qr.dart';
+import 'package:bringfly_uniwallet/ui/page/promotion/promotion_page_view.dart';
 import 'package:bringfly_uniwallet/ui/page/swap/swap_balance_page_view.dart';
 import 'package:bringfly_uniwallet/ui/page/transaction/transaction_page_view.dart';
 
@@ -73,7 +74,9 @@ class MyDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.list, color: Colors.white),
                 title: Text('Promotion List', style: TextStyle(color: Colors.white),),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => PromotionPageView()));
+                },
               ),
               ListTile(
                 leading: Icon(Icons.notifications, color: Colors.white),

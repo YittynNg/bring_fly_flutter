@@ -106,6 +106,14 @@ AssetImage _typeToImage(String type) {
       return BoostLogo;
     case 'GrabPay':
       return GrabPayLogo;
+    case 'Maybank':
+      return MaybankLogo;
+    case 'CIMB':
+      return CIMBLogo;
+    case 'PBBank':
+      return PBBankLogo;
+    case 'HLBank':
+      return HLBankLogo;
     default:
       return DuitNowQR;
   }

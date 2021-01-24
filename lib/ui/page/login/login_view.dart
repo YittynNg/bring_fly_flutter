@@ -22,6 +22,7 @@ class LoginView extends StatelessWidget {
     }
 
     void _submit(SignInFormModel model) async {
+      FocusScope.of(context).unfocus();
       await model.checkCanSignIn(_email.text, _password.text);
       // if (_formKey.currentState.validate()) {
       //   FocusScope.of(context).unfocus();

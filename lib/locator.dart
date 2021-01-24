@@ -1,4 +1,5 @@
 import 'package:bringfly_uniwallet/service/accounts_service.dart';
+import 'package:bringfly_uniwallet/service/promotion_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -32,6 +33,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => API());
   locator.registerLazySingleton(() => AuthService(service: 'https://imagechat.getitqec.com'));
   locator.registerLazySingleton(() => AccountService()..init());
+  locator.registerLazySingleton(() => PromotionService()..init());
 
   // locator.registerLazySingleton(() => MessagingTokenService(service: 'https://imagechat.getitqec.com'));
   // locator.registerLazySingleton(() => PushNotificationsManager());

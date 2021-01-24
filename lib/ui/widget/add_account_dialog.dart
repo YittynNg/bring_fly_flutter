@@ -39,7 +39,7 @@ class AddAccountDialog extends StatelessWidget {
 
         return SimpleDialog(
           contentPadding: EdgeInsets.symmetric(vertical: 9, horizontal: 15),
-          title: Text('Add E-Wallet'),
+          title: Text('Add $type'),
           children: [
             StatefulBuilder(
               builder: (context, setState) {
@@ -52,11 +52,17 @@ class AddAccountDialog extends StatelessWidget {
                 return DropdownButton<String>(
                   onChanged: _changeAccount,
                   value: model.account,
-                  hint: Text('Choose Wallet'),
-                  items: [
+                  hint: Text('Choose $type'),
+                  items: type == "E-Wallet"? [
                     AccountTypeDropDownMenuItem('TouchNGo'),
                     AccountTypeDropDownMenuItem('GrabPay'),
                     AccountTypeDropDownMenuItem('Boost'),
+                  ] : [
+                    AccountTypeDropDownMenuItem("Maybank"),
+                    AccountTypeDropDownMenuItem("CIMB"),
+                    AccountTypeDropDownMenuItem("PBBank"),
+                    AccountTypeDropDownMenuItem("HLBank"),
+                    AccountTypeDropDownMenuItem("Others"),
                   ],
                 );
               }
@@ -64,7 +70,7 @@ class AddAccountDialog extends StatelessWidget {
 
             SizedBox(height: 9,),
 
-            Form(
+            if(type == "E-Wallet") Form(
               key: _formKey,
               child: Container(
                 padding: EdgeInsets.symmetric(
