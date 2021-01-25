@@ -13,6 +13,9 @@ class TransactionsHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var transactions = locator<AccountService>().getTransactionsOf(account);
+
     return Material(
       elevation: 3,
       type: MaterialType.card,
@@ -32,15 +35,19 @@ class TransactionsHistoryList extends StatelessWidget {
                 ],
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      for(var transaction in locator<AccountService>().getTransactionsOf(account))
-                        TransactionWidget(transaction),
-                      SizedBox(height: 9,)
-                    ],
+                child: transactions.length <= 0
+                  ? Center(
+                    child: Text('No transactions'),
+                  )
+                  : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for(var transaction in transactions)
+                          TransactionWidget(transaction),
+                        SizedBox(height: 9,)
+                      ],
+                    ),
                   ),
-                ),
               ),
             ],
           ),

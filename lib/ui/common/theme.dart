@@ -190,7 +190,7 @@ final darkTheme = ThemeData(
   buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
   textTheme: darkTextTheme,
   inputDecorationTheme: InputDecorationTheme(
-    fillColor: Colors.grey[800],
+    fillColor: Colors.grey[700],
     filled: true,
     labelStyle: TextStyle(
         color: Colors.white),

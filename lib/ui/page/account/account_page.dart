@@ -33,8 +33,18 @@ class AccountPageView extends StatelessWidget {
         return TouchNGoLogo;
       case 'Boost':
         return BoostLogo;
-      default:
+      case 'GrabPay':
         return GrabPayLogo;
+      case 'Maybank':
+        return MaybankLogo;
+      case 'CIMB':
+        return CIMBLogo;
+      case 'PBBank':
+        return PBBankLogo;
+      case 'HLBank':
+        return HLBankLogo;
+      default:
+        return DuitNowQR;
     }
   }
 
@@ -90,7 +100,7 @@ class AccountPageView extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.red),
-                    onPressed: () {}, 
+                    onPressed: model.removeAccount, 
                     child: Text('Remove Account')
                   ),
                   SizedBox(width: 9,),

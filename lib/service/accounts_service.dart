@@ -70,7 +70,7 @@ class AccountService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteAccount(Account acc) async {
+  Future<void> deleteAccount(Account acc) async {
     // int index;
     // for(int i = 0; i < accounts.length; i++) {
     //   if(accounts[i] == acc) {
@@ -80,7 +80,7 @@ class AccountService extends ChangeNotifier {
     // }
     // await locator<DB>().getAccountBox.deleteAt(index);
     accounts.remove(acc);
-    acc.delete();
+    await acc.delete();
     notifyListeners();
   }
 

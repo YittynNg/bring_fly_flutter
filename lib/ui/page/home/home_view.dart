@@ -1,6 +1,8 @@
 import 'package:bringfly_uniwallet/common/mock_data.dart';
+import 'package:bringfly_uniwallet/locator.dart';
 import 'package:bringfly_uniwallet/model/account.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../account/account_page.dart';
 import '../../widget/add_account_dialog.dart';
@@ -30,6 +32,7 @@ class Home extends StatelessWidget {
       );
       print('From AddAccountDialog: $added');
       if(added != null && added) {
+        locator<DialogService>().showDialog(description: 'Account is added.');
         _model.notifyListeners();
       }
     }
@@ -43,12 +46,14 @@ class Home extends StatelessWidget {
       );
       print('From AddAccountDialog: $added');
       if(added != null && added) {
+        locator<DialogService>().showDialog(title: 'Success', description: 'Account is added.');
         _model.notifyListeners();
       }
     }
 
-    _goToAccountPage(Account account) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountPageView(account: account)));
+    _goToAccountPage(Account account) async {
+      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountPageView(account: account)));
+      _model.notifyListeners();
     }
 
     return ViewModelBuilder<HomeViewModel>.reactive(

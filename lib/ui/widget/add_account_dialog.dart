@@ -5,8 +5,11 @@ import 'package:bringfly_uniwallet/locator.dart';
 import 'package:bringfly_uniwallet/model/account.dart';
 import 'package:bringfly_uniwallet/service/accounts_service.dart';
 import 'package:bringfly_uniwallet/ui/constant/logo.dart';
+import 'package:bringfly_uniwallet/ui/page/Term&Condition_page.dart';
 import 'package:bringfly_uniwallet/ui/page/verify/verification_page_view.dart';
+import 'package:bringfly_uniwallet/ui/utils/LoadingPage.dart';
 import 'package:bringfly_uniwallet/util/validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -27,12 +30,16 @@ class AddAccountDialog extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ViewModelBuilder<AddAccountDialogViewmodel>.reactive(
-      viewModelBuilder: () => AddAccountDialogViewmodel(),
+      viewModelBuilder: () => AddAccountDialogViewmodel(type),
       builder: (context, model, _) {
 
         _phoneEditingComplete() async {
-          if (_formKey.currentState.validate()) {
-            FocusScope.of(context).unfocus();
+          if(type == "E-Wallet") {
+            if (_formKey.currentState.validate()) {
+              FocusScope.of(context).unfocus();
+              await model.requestAddAccount();
+            }
+          } else {
             await model.requestAddAccount();
           }
         }
@@ -88,26 +95,25 @@ class AddAccountDialog extends StatelessWidget {
                   validator: Validator.mobileValidator,
                   autocorrect: false,
                   decoration: InputDecoration(
-                    fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                     filled: true,
                     labelText: "Phone",
-                    labelStyle: TextStyle(
-                        color: Colors.black),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                   ),
                 )
               )
             ),
 
-            Text('By proceed, you argee with the Term and Condition'),
+            RichText(
+              text: TextSpan(
+                text: "By proceed, you argee with the ",
+                children: [
+                  TextSpan(
+                    text: "Terms and Conditions",
+                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                    recognizer: TapGestureRecognizer()..onTap = model.goTNC,
+                  )
+                ]
+              ),
+            ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -136,7 +142,7 @@ class AddAccountDialogViewmodel extends BaseViewModel {
   final String type;
   String account;
 
-  AddAccountDialogViewmodel({this.type});
+  AddAccountDialogViewmodel(this.type);
 
   final TextEditingController phone = TextEditingController();
 
@@ -145,11 +151,23 @@ class AddAccountDialogViewmodel extends BaseViewModel {
   }
 
   Future<void> requestAddAccount() async {
-    bool result = await locator<NavigationService>().navigateToView(VerificationPage(phone: '+6'+phone.text,));
-    print('From verification: $result');
+    bool result;
+    if(type == 'E-Wallet') {
+      result = await locator<NavigationService>().navigateToView(VerificationPage(phone: '+6'+phone.text,));
+      print('From verification: $result');
+    } else {
+      locator<NavigationService>().navigateToView(LoadingPage(message: 'Request authorization from bank...',));
+      await Future.delayed(Duration(seconds: 2));
+      locator<NavigationService>().back();
+      result = true;
+    }
     if(result != null && result) {
       await locator<AccountService>().addAccount(Account(type: account, balance: Random.secure().nextInt(1000).toDouble(), phone: '+6'+phone.text));
       locator<NavigationService>().back(result: true);
     }
+  }
+
+  goTNC() {
+    locator<NavigationService>().navigateToView(TermNConditionView());
   }
 }

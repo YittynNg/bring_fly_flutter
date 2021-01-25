@@ -37,15 +37,19 @@ class TransactionPageView extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
             )
-            : SingleChildScrollView(
-              child: Column(
-                children: [
-                  for(var transaction in model.transactions)
-                    TransactionWidget(transaction, logo: true,),
-                  SizedBox(height: 9,)
-                ],
-              ),
-            )
+            : model.transactions.length == 0
+              ? Center(
+                child: Text('No transactions'),
+              )
+              : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    for(var transaction in model.transactions)
+                      TransactionWidget(transaction, logo: true,),
+                    SizedBox(height: 9,)
+                  ],
+                ),
+              )
         );
       }
     );

@@ -63,7 +63,7 @@ class Root extends StatelessWidget {
         print('ROOT ${authService.status}');
         switch (authService.status) {
           case AuthStatus.Uninitialized:
-            return LoadingPage(message: 'Welcome to 5N',);
+            return LoadingPage(message: 'Welcome to Uniwallet\nAll in 1, 1 for All',);
           case AuthStatus.Unauthenticated:
             return ChangeNotifierProvider<AuthViewController>(
               create: (_) => AuthViewController(),

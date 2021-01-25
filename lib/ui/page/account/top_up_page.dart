@@ -88,20 +88,8 @@ class TopUpPageView extends StatelessWidget {
                             validator: Validator.amountValidator,
                             autocorrect: false,
                             decoration: InputDecoration(
-                              fillColor: Theme.of(context).brightness == Brightness.light? Colors.grey[100] : Colors.grey[800],
                               filled: true,
                               labelText: "Amount",
-                              labelStyle: TextStyle(
-                                  color: Colors.black),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.black),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
                             ),
                           ),
                         )
